@@ -53,13 +53,14 @@ def match_transactions(df1_filtered, df2_filtered, time_buffer_hours=1):
         
         # Append matched transactions to the matched_transactions DataFrame
         for index2, row2 in final_matches.iterrows():
-            matched_transactions = matched_transactions.append({
-                'TransactionDateTime': row1['TransactionDateTime'],
-                'Amount1': row1['Amount1'],
-                'VehicleNumber1': row1['VehicleNumber1'],
-                'Amount2': row2['Amount2'],
-                'VehicleNumber2': row2['VehicleNumber2']
-            }, ignore_index=True)
+            new_match = pd.DataFrame({
+                'TransactionDateTime': [row1['TransactionDateTime']],
+                'Amount1': [row1['Amount1']],
+                'VehicleNumber1': [row1['VehicleNumber1']],
+                'Amount2': [row2['Amount2']],
+                'VehicleNumber2': [row2['VehicleNumber2']]
+            })
+            matched_transactions = pd.concat([matched_transactions, new_match], ignore_index=True)
     
     return matched_transactions
 
